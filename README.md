@@ -5,142 +5,30 @@ JSON in Java [package org.json]
 
 **[Click here if you just want the latest release jar file.](https://repo1.maven.org/maven2/org/json/json/20190722/json-20190722.jar)**
 
-JSON is a light-weight, language independent, data interchange format.
-See http://www.JSON.org/
+json是一种轻量级、独立于语言的数据交换格式。
+见 http://www.JSON.org/
 
-The files in this package implement JSON encoders/decoders in Java.
-It also includes the capability to convert between JSON and XML, HTTP
-headers, Cookies, and CDL.
+java:jsonobject可以解析字符串或jsontokener中的文本来生成类似于映射的对象。对象提供了用于操作其内容和生成符合json的对象序列化的方法。
+java:jsonarray可以解析字符串或jsontokener中的文本，从而生成类似向量的对象。该对象提供用于操作其内容和生成符合json的数组序列化的方法。
+java:jsontokener将文本分解成一系列单独的标记。它可以由字符串、读取器或inputstream构造。
+jsonexception.java：jsonexception是这个包抛出的标准异常类型。
+json pointer.java:json指针的实现（rfc 6901）。支持字符串表示和uri片段表示形式的json指针。
+JSONPropertyIgnore.java：可以在JavaBean吸收器方法上使用的注释类。当用于通常序列化为jsonobject的bean方法时，它将重写getter-to-key-name逻辑，并强制从生成的jsonobject中排除该属性。
+JSONPropertyName.java：可以在JavaBean吸收器方法上使用的注释类。当用于通常序列化为jsonobject的bean方法时，它会重写getter-to-key-name逻辑并使用注释的值。bean处理器将查看类层次结构。这意味着您可以在基类或接口上使用注释，并且即使getter在子类中被重写，也将使用注释的值。
+jsonstring.java:jsonstring接口需要一个tojsonstring方法，允许对象提供自己的序列化。
+jsonstringer.java:jsonstringer为构建json字符串提供了方便的工具。
+java:json writer为通过writer构建json文本提供了一个方便的工具。
+java:cdl支持json和逗号分隔列表之间的转换。
+java:cookie支持json和cookies之间的转换。
+java:cookielist支持json和cookie列表之间的转换。
+http.java:http支持在json和http头之间进行转换。
+httptokener.java:httptokener扩展jsontokener以解析http头。
+xml.java:xml支持json和xml之间的转换。
+jsonml.java:jsonml支持jsonml和xml之间的转换。
+java:xmltokener扩展了jsontokener来解析xml文本。
 
-This is a reference implementation. There is a large number of JSON packages
-in Java. Perhaps someday the Java community will standardize on one. Until
-then, choose carefully.
-
-The license includes this restriction: "The software shall be used for good,
-not evil." If your conscience cannot live with that, then choose a different
-package.
-
-The package compiles on Java 1.6-1.8.
-
-
-**JSONObject.java**: The `JSONObject` can parse text from a `String` or a `JSONTokener`
-to produce a map-like object. The object provides methods for manipulating its
-contents, and for producing a JSON compliant object serialization.
-
-**JSONArray.java**: The `JSONArray` can parse text from a String or a `JSONTokener`
-to produce a vector-like object. The object provides methods for manipulating
-its contents, and for producing a JSON compliant array serialization.
-
-**JSONTokener.java**: The `JSONTokener` breaks a text into a sequence of individual
-tokens. It can be constructed from a `String`, `Reader`, or `InputStream`.
-
-**JSONException.java**: The `JSONException` is the standard exception type thrown
-by this package.
-
-**JSONPointer.java**: Implementation of
-[JSON Pointer (RFC 6901)](https://tools.ietf.org/html/rfc6901). Supports
-JSON Pointers both in the form of string representation and URI fragment
-representation.
-
-**JSONPropertyIgnore.java**: Annotation class that can be used on Java Bean getter methods.
-When used on a bean method that would normally be serialized into a `JSONObject`, it
-overrides the getter-to-key-name logic and forces the property to be excluded from the
-resulting `JSONObject`.
-
-**JSONPropertyName.java**: Annotation class that can be used on Java Bean getter methods.
-When used on a bean method that would normally be serialized into a `JSONObject`, it
-overrides the getter-to-key-name logic and uses the value of the annotation. The Bean
-processor will look through the class hierarchy. This means you can use the annotation on
-a base class or interface and the value of the annotation will be used even if the getter
-is overridden in a child class.   
-
-**JSONString.java**: The `JSONString` interface requires a `toJSONString` method,
-allowing an object to provide its own serialization.
-
-**JSONStringer.java**: The `JSONStringer` provides a convenient facility for
-building JSON strings.
-
-**JSONWriter.java**: The `JSONWriter` provides a convenient facility for building
-JSON text through a writer.
-
-
-**CDL.java**: `CDL` provides support for converting between JSON and comma
-delimited lists.
-
-**Cookie.java**: `Cookie` provides support for converting between JSON and cookies.
-
-**CookieList.java**: `CookieList` provides support for converting between JSON and
-cookie lists.
-
-**HTTP.java**: `HTTP` provides support for converting between JSON and HTTP headers.
-
-**HTTPTokener.java**: `HTTPTokener` extends `JSONTokener` for parsing HTTP headers.
-
-**XML.java**: `XML` provides support for converting between JSON and XML.
-
-**JSONML.java**: `JSONML` provides support for converting between JSONML and XML.
-
-**XMLTokener.java**: `XMLTokener` extends `JSONTokener` for parsing XML text.
-
-Unit tests are maintained in a separate project. Contributing developers can test
-JSON-java pull requests with the code in this project:
+单元测试用这个项目中的代码测试JSON-Java拉取请求:
 https://github.com/stleary/JSON-Java-unit-test
 
-Numeric types in this package comply with
-[ECMA-404: The JSON Data Interchange Format](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf) and
-[RFC 8259: The JavaScript Object Notation (JSON) Data Interchange Format](https://tools.ietf.org/html/rfc8259#section-6).
-This package fully supports `Integer`, `Long`, and `Double` Java types. Partial support
-for `BigInteger` and `BigDecimal` values in `JSONObject` and `JSONArray` objects is provided
-in the form of `get()`, `opt()`, and `put()` API methods.
-
-Although 1.6 compatibility is currently supported, it is not a project goal and may be
-removed in some future release.
-
-In compliance with RFC8259 page 10 section 9, the parser is more lax with what is valid
-JSON than the Generator. For Example, the tab character (U+0009) is allowed when reading
-JSON Text strings, but when output by the Generator, tab is properly converted to \t in
-the string. Other instances may occur where reading invalid JSON text does not cause an
-error to be generated. Malformed JSON Texts such as missing end " (quote) on strings or
-invalid number formats (1.2e6.3) will cause errors as such documents can not be read
-reliably.
-
-Some notible exceptions that the JSON Parser in this library accepts are:
-* Unquoted keys `{ key: "value" }`
-* Unquoted values `{ "key": value }`
-* Unescaped literals like "tab" in string values `{ "key": "value   with an unescaped tab" }`
-* Numbers out of range for `Double` or `Long` are parsed as strings
-
-Release history:
-
-~~~
-20190722    Recent commits
-
-20180813    POM change to include Automatic-Module-Name (#431)
-
-20180130    Recent commits
-
-20171018    Checkpoint for recent commits.
-
-20170516    Roll up recent commits.
-
-20160810    Revert code that was breaking opt*() methods.
-
-20160807    This release contains a bug in the JSONObject.opt*() and JSONArray.opt*() methods,
-it is not recommended for use.
-Java 1.6 compatability fixed, JSONArray.toList() and JSONObject.toMap(),
-RFC4180 compatibility, JSONPointer, some exception fixes, optional XML type conversion.
-Contains the latest code as of 7 Aug, 2016
-
-20160212    Java 1.6 compatibility, OSGi bundle. Contains the latest code as of 12 Feb, 2016.
-
-20151123    JSONObject and JSONArray initialization with generics. Contains the
-latest code as of 23 Nov, 2015.
-
-20150729    Checkpoint for Maven central repository release. Contains the latest code
-as of 29 July, 2015.
-~~~
-
-
-JSON-java releases can be found by searching the Maven repository for groupId "org.json"
-and artifactId "json". For example:
+JSON Java发布可以通过在Maven存储库中搜索GyPID“Org .JSON”和AutoForTID“JSON”来找到。例如:
 https://search.maven.org/search?q=g:org.json%20AND%20a:json&core=gav
